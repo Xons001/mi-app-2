@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+class Input extends Component{
+
+  render() {
+    return (
+      <input
+        value={this.props.value}
+        onChange={this.props.onChange}
+      />
+    )
+  }
+}
+
+class App extends Component {
+
+  state = {
+    nombre: '',
+    apellido: '',
+  }
+
+  //Metodo 3
+  // constructor(props) {
+  //   super(props)
+  //   this.updateNombre = this.updateNombre.bind(this)
+  // }
+
+  // Metodo 1
+  updateNombre = (v) => {
+    console.log(this);
+    this.updateValues( 'nombre', v.target.value )
+  }
+
+  //Metodo 2 y 3
+  // updateNombre(v) {
+  //   console.log(this);
+  //   this.updateValues( 'nombre', v.target.value )
+  // }
+
+  updateValues = (prop, value) => {
+    this.setState({ [prop]: value })
+  }
+  render() {
+    return (
+      <div>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Nombre completo: {`${this.state.nombre} ${this.state.apellido}`}
+          <Input 
+            value={this.state.nombre}
+            //Metodo 1 y 3
+            onChange={this.updateNombre} 
+            // Metodo 2
+            // onChange={(arg) => this.updateNombre(arg)} 
+          />
+          <Input 
+            value={this.state.apellido}
+            onChange={e => this.updateValues('apellido', e.target.value)}
+          />
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      </div>
+    )
+  }
 }
 
 export default App;
